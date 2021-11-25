@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://vjs.zencdn.net/7.17.0/video-js.css" rel="stylesheet" />
+</head>
+
+<body>
+    <video id="my-video" class="video-js"></video>
+    <script src="https://vjs.zencdn.net/7.17.0/video.min.js" ></script>
+    <script src="./node_modules/videojs-playlist/dist/videojs-playlist.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js" ></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js" async></script>
+    <script src="./node_modules/@filmgardi/videojs-skip-button/dist/videojs-skip-button.js"></script>
+    <script>
+ 
+        // $(document).ready(function () {
+        //     axios({
+        //             method: 'post', //要求接口使用get而不是post ，因为get一般都不带参数
+
+        //             url: '',
+
+        //             data: {
+
+        //             } //接收播放列表
+        //         })
+        //         .then(function (response) {
+
+        //         })
+        //         .catch(function (response) {
+
+        //         })
+
+        // })
+
+
+
+        var player = videojs('my-video', {
+            // // loop:true,
+            // // muted: true,
+            controls: true,
+            // autoplay:true,
+            preload: true,
+            // // poster:"https://z3.ax1x.com/2021/11/24/oFClCV.jpg",
+            fluid: true,
+        });
+
+        // player.on('ready',function(){
+        //     console.log('jjjjjj')
+        //      console.log(this.isFullscreen());   //没办法一打开直接全屏，全屏的行为必须由用户触发
+        //      player.isFullscreen(true)
+        //     player.requestFullscreen()
+        //      console.log(this.isFullscreen());
+        // })
+
+        //通过对象构造器，对视频地址进行组装，包装成合适的格式
+        class sourcedata {
+            constructor(src) {
+                this.sources = [{
+                    src: src,
+                    type: 'video/mp4'
+                }]
+                this.poster = '默认的者识封面图'
+            }
+        }
+        let result = []
+        //这里应该使用匿名函数，在请求的回调函数中使用
+        function warpper(videosrc) {
+            result.push(new sourcedata(videosrc))
+        }
+
+        player.on('ended',function(){  //获取trigger
+            // console.log('我播完了')
+
+            console.log($('my-video').attr("src"))
+            
+        // axios({
+        // method: 'get', //要求接口使用post而不是get ，因为get一般都不带参数
+        // url:'接口地址',
+        // })
+        // .then(function (response) {
+        //     this.src
+
+        // })
+        // .catch(function (response) {
+
+        // })
+        })
+
+        console.log(result)
+
+        let playlistdata = [{
+            sources: [{
+                src: '//vjs.zencdn.net/v/oceans.mp4',
+                type: 'video/mp4'
+            }],
+            poster: './zheshilogo.svg'
+        }, {
+            sources: [{
+                src: 'http://media.w3.org/2010/05/sintel/trailer.mp4',
+                type: 'video/mp4'
+            }],
+            poster: 'http://media.w3.org/2010/05/sintel/poster.png'
+        }, {
+            sources: [{
+                src: 'http://media.w3.org/2010/05/bunny/trailer.mp4',
+                type: 'video/mp4'
+            }],
+            poster: 'http://media.w3.org/2010/05/bunny/poster.png'
+        }, {
+            sources: [{
+                src: 'http://vjs.zencdn.net/v/oceans.mp4',
+                type: 'video/mp4'
+            }],
+            poster: 'http://www.videojs.com/img/poster.jpg'
+        }, {
+            sources: [{
+                src: 'http://media.w3.org/2010/05/bunny/movie.mp4',
+                type: 'video/mp4'
+            }],
+            poster: 'http://media.w3.org/2010/05/bunny/poster.png'
+        }, {
+            sources: [{
+                src: 'http://media.w3.org/2010/05/video/movie_300.mp4',
+                type: 'video/mp4'
+            }],
+            poster: 'http://media.w3.org/2010/05/video/poster.png'
+        }]
+
+
+        //学习js 对象操作，包括插入值  js 对象数组
+        player.playlist(playlistdata);
+
+        // player.requestFullscreen()
+        // Play through the playlist automatically.
+        player.playlist.autoadvance(0);
+        player.playlist.repeat(true)
+        //取得或设置当前的播放列表索引 ，当有新视频进来的时候，直接设置播放新视频，拿到插入对象的最后一个值
+        console.log(player.playlist.currentItem())
+        skipplayer=videojs('my-video')
+        skipplayer.skip()
+
+
+
+        //当从接口拿到的数据不同时
+        // player.on('playlistchange', function () {
+            //当播放列表发生更新的时候，将新视频压入数组，并设置为从新视频处开始播放  单个新的视频
+            // player.playlist.currentItem(result[-1])
+
+
+            //当有多个视频进入的时候，
+        //     result.length //result push 方法会返回数组的新长度，与数组原先的长度进行对比，从第一个新增视频处播放
+        //     result.push(item1, item2) //
+        // })
+
+        //player.playlist.contains 可以判断当前列表中是否有这个视频
+        //player.playlist.indexOf('http://media.w3.org/2010/05/bunny/trailer.mp4')接收一个来源，返回他在播放列表中的位置。没有则返回-1
+
+
+
+
+        //     options=
+        //     {
+        //     // loop:true,
+        //     // muted: true,
+        //     controls: true,
+        //     // autoplay:true,
+        //     preload: true,
+        //     // poster:"https://z3.ax1x.com/2021/11/24/oFClCV.jpg",
+        //     fluid: true,
+        //       sources: [
+
+        //       {
+        //       src: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
+        //       type: 'video/mp4'
+        //       }]
+
+        //     }
+        //     let a = videojs('my-video',options,function(){
+        //         // this.playlist([{
+        //         // src: '//vjs.zencdn.net/v/oceans.mp4',
+        //         // type: 'video/webm'
+        //         // },{
+        //         // src: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
+        //         // type: 'video/mp4'
+        //         // }
+
+        //         // ])
+        //         // this.playlist.repeat(true)
+        //         this.on('end',function(){
+        //             videojs.log('fuck')
+        //         })
+
+        //     }
+        //  )
+
+        // a.enterFullScreen()
+
+        // var videoList =
+        // ["//vjs.zencdn.net/v/oceans.mp4",
+        // "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+        // "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4"]
+        // var curVideo = 0;
+        // // var videoPlayer = document.getElementById('my-video');
+        // var a = document.getElementById('my-video');
+        // a.onended = function () {
+        //     console.log("我播完了")
+        //     curVideo++;
+
+        //     if (curVideo < videoList.length) {
+        //         a.src = videoList[curVideo];
+        //         //  return;      
+        //     }
+        //     if (curVideo == videoList.length) {
+        //         curVideo = 0;
+        //         a.src = videoList[curVideo];
+        //     }
+        // }
+
+
+        // var videos = ["//vjs.zencdn.net/v/oceans.mp4",
+        // "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+        // "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4"];
+        // var videoIndex = 0;
+        // var videoPlayer = document.getElementById('videoPlayer');
+        // videoPlayer.onended = function(){
+        // videoIndex = (videoIndex + 1) % videos.length;
+        // videoPlayer.src = videos[videoIndex];
+        // }
+        // videoPlayer.on("ended",function(){
+        //             videoIndex = (videoIndex + 1) % videos.length;
+        //             videoPlayer.src = videos[videoIndex];
+
+        // })
+
+
+        // videoPlayer.src=videos[0]
+    </script>
+</body>
+
+</html>

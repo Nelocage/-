@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://vjs.zencdn.net/7.17.0/video-js.css" rel="stylesheet" />
+
+</head>
+
+<body>
+
+    <video id="my-video" class="video-js">
+        <source src="//vjs.zencdn.net/v/oceans.mp4" type="video/mp4">
+    </video>
+    <script src="https://vjs.zencdn.net/7.17.0/video.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        var player = videojs("my-video", {
+            // // loop:true,
+            muted: true,
+            controls: true,
+            // autoplay:true,
+            preload: true,
+            // // poster:"https://z3.ax1x.com/2021/11/24/oFClCV.jpg",
+
+        });
+
+
+        player.on("ended", function () {
+            console.log('我好了')
+
+            console.log($('source').attr("src"))
+            // axios({
+            //         method: 'get', //要求接口使用get而不是post ，因为get一般都不带参数
+
+            //         url: '',
+
+            //         data: {
+
+            //         } //接收播放列表
+            //     })
+            //     .then(function (response) {
+
+
+
+            //     })
+            //     .catch(function (response) {
+
+            //     })
+        })
+    </script>
+
+</body>
+
+</html>
